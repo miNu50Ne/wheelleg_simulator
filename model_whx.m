@@ -1,4 +1,4 @@
-%Replica the model of whx
+%Replica the model of Wang Hongxi
 
 clear;
 tic;
@@ -84,7 +84,6 @@ for index = 1:length(L_0)
     % K(:, :, index) = lqr(A_0, B_0, Q, R);
 end
 
-func = cell(2, 6);
 R_square = zeros(2, 6);
 fit_type = fittype('poly4');
 result = sym('result', [2, 6]);
@@ -103,9 +102,8 @@ for i = 1:2
         % Coefficient of determination -> goodness of fit
         R_square(i, j) = gof.rsquare;
 
-        K_result(i, j) = str2sym(formula(result));
-        K_result(i, j) = subs(K_result(i, j), coeffnames(result).', coeffvalues(result));
-        K_result(i, j) = subs(K_result(i, j), x, L);
+        K_result(i, j) = subs(subs(str2sym(formula(result)), ...
+            coeffnames(result).', coeffvalues(result)), x, L);
 
         % 绘图区域
         nexttile((i - 1) * 6 + j);
@@ -131,12 +129,12 @@ for i = 1:2
 
 end
 
-% K_result
-R_square
-
 K_calc = matlabFunction(K_result);
 
 L0 = 0.2;
-K_calc(L0)
+K_0 = K_calc(L0);
+
+disp("L=0.2:");
+disp(K_0);
 
 toc;
