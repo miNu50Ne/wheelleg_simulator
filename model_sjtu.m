@@ -107,7 +107,7 @@ A_calc = matlabFunction(J_A);
 B_calc = matlabFunction(J_B);
 
 %leg length
-L_l_s = 0.1:0.01:0.45;
+L_l_s = 0.10:0.005:0.4;
 L_r_s = L_l_s;
 
 K_s = zeros(4, 10, length(L_l_s), length(L_r_s));
@@ -133,15 +133,15 @@ for i = 1:length(L_l_s)
 end
 
 R_square = zeros(4, 10);
-fit_type = fittype('poly22');
+fit_type = fittype('poly55');
 result = sym('result', [4, 10]);
 
 K_result = sym('K', [4, 10]);
-syms L;
+syms x y l_l l_r;
 
-[X_s, Y_s] = meshgrid(L_l_s, L_r_s);
-x = X_s(:);
-y = Y_s(:);
+[L_s, R_s] = meshgrid(L_l_s, L_r_s);
+l = L_s(:);
+r = R_s(:);
 
 for i = 1:4
 
@@ -149,15 +149,17 @@ for i = 1:4
         k = squeeze(K_s(i, j, :, :));
         k = k(:);
 
-        [result, gof] = fit([x, y], k, fit_type);
+        [result, gof] = fit([l, r], k, fit_type);
         R_square(i, j) = gof.rsquare;
 
         K_result(i, j) = subs(subs(str2sym(formula(result)), ...
-            coeffnames(result).', coeffvalues(result)), x, L);
+            coeffnames(result).', coeffvalues(result)), [x, y], [l_l, l_r]);
+
     end
 
 end
 
 K_calc = matlabFunction(K_result);
-
+R_square
+K_calc(0.2, 0.2)
 toc;
