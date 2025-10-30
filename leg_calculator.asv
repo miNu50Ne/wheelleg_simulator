@@ -9,7 +9,7 @@ syms d_phi_1 d_phi_2;
 syms F T_p;
 syms phi_1_ phi_2_;
 
-assumeAlso(l_1< l_2);
+assumeAlso
 
 phi_3 = 0.5 * (pi - phi_1 -phi_2);
 
