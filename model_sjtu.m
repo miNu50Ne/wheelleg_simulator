@@ -9,7 +9,7 @@ syms dd_theta_w_l dd_theta_w_r
 
 syms s theta_l_l theta_l_r theta_b phi
 syms d_s d_theta_l_l d_theta_l_r d_theta_b d_phi
-syms dd_s dd_theta_l_l dd_theta_l_r dd_theta_b dd_phi
+syms dd_theta_l_l dd_theta_l_r dd_theta_b 
 
 syms T_w_l T_w_r T_b_l T_b_r
 
@@ -79,7 +79,6 @@ eq_5 = (0.5 * I_z * R_w / R_l + I_w * R_l / R_w) * dd_theta_w_l ...
 [dd_theta_l_l, dd_theta_l_r, dd_theta_w_l, dd_theta_w_r, dd_theta_b] = solve([eq_1, eq_2, eq_3, eq_4, eq_5], [dd_theta_l_l, dd_theta_l_r, dd_theta_w_l, dd_theta_w_r, dd_theta_b]);
 
 dd_s = 0.5 * R_w * (dd_theta_w_l + dd_theta_w_r);
-
 dd_phi = 0.5 * R_w / R_l * (-dd_theta_w_l + dd_theta_w_r) ...
     - 0.5 * l_l / R_l * cos(theta_l_l) * dd_theta_l_l ...
     + 0.5 * l_r / R_l * cos(theta_l_r) * dd_theta_l_r ...
@@ -160,6 +159,8 @@ for i = 1:4
 end
 
 K_calc = matlabFunction(K_result);
+matlabFunction(K_result, 'File', 'lqr_k');
+
 R_square
 K_calc(0.2, 0.2)
 toc;
