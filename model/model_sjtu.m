@@ -3,13 +3,17 @@
 clear;
 tic;
 
+if ~exist(fullfile(pwd, 'function'), 'dir')
+    mkdir('function');
+end
+
 syms theta_w_l theta_w_r
 syms d_theta_w_l d_theta_w_r
 syms dd_theta_w_l dd_theta_w_r
 
 syms s theta_l_l theta_l_r theta_b phi
 syms d_s d_theta_l_l d_theta_l_r d_theta_b d_phi
-syms dd_theta_l_l dd_theta_l_r dd_theta_b 
+syms dd_theta_l_l dd_theta_l_r dd_theta_b
 
 syms T_w_l T_w_r T_b_l T_b_r
 
@@ -112,7 +116,7 @@ L_r_s = L_l_s;
 K_s = zeros(4, 10, length(L_l_s), length(L_r_s));
 
 % X = s d_s phi d_phi theta_l_l d_theta_l_l theta_l_r d_theta_l_r theta_b d_theta_b
-Q = diag([500 100 50 5 1 1 1 1 1000 1]);
+Q = diag([500 100 50 5 10 1 10 1 3000 1]);
 % U = T_w_l T_w_r T_b_l T_b_r
 R = diag([1 1 0.25 0.25]);
 
@@ -132,7 +136,7 @@ for i = 1:length(L_l_s)
 end
 
 R_square = zeros(4, 10);
-fit_type = fittype('poly55');
+fit_type = fittype('poly44');
 result = sym('result', [4, 10]);
 
 K_result = sym('K', [4, 10]);
@@ -159,7 +163,7 @@ for i = 1:4
 end
 
 K_calc = matlabFunction(K_result);
-matlabFunction(K_result, 'File', 'lqr_k');
+matlabFunction(K_result, 'File', '../function/lqr_k');
 
 R_square
 K_calc(0.2, 0.2)
