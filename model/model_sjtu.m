@@ -3,8 +3,12 @@
 clear;
 tic;
 
-if ~exist(fullfile(pwd, 'function'), 'dir')
+if ~exist(fullfile(pwd, '..', 'function'), 'dir')
     mkdir('function');
+end
+
+if ~exist(fullfile(pwd, '..', 'data'), 'dir')
+    mkdir('data');
 end
 
 syms theta_w_l theta_w_r
@@ -26,8 +30,8 @@ syms m_w m_l m_b
 syms I_w I_l_l I_l_r I_b I_z
 
 %parameters
-Rw = 0.07;
-Rl = 0.22;
+Rw = 0.06;
+Rl = 0.17825;
 
 eta_l = 0.2945;
 lwl = eta_l * l_l + 0.0368;
@@ -38,14 +42,16 @@ lwr = lwl;
 lc = 0;
 
 mw = 0.2;
-mb = 16.98;
+mb = 15.0;
 ml = 0.86;
 
-Iw = 0.00036;
-Ib = 0.36;
+Iw = mw * Rw ^ 2;
+
 Iz = 0.33;
-Ill = 0.3404 * l_l * l_l + 0.0463 * l_l + 0.0161;
-Ilr = 0.3404 * l_r * l_r + 0.0463 * l_r + 0.0161;
+
+Ill = ml * ((lwl + lbl) ^ 2 + 0.05 ^ 2) / 12.0;
+Ilr = Ill;
+Ib = mb * (0.3 ^ 2 + 0.12 ^ 2) / 12.0;
 
 g = 9.80665;
 
@@ -116,9 +122,12 @@ L_r_s = L_l_s;
 K_s = zeros(4, 10, length(L_l_s), length(L_r_s));
 
 % X = s d_s phi d_phi theta_l_l d_theta_l_l theta_l_r d_theta_l_r theta_b d_theta_b
-Q = diag([500 100 50 5 10 1 10 1 3000 1]);
+Q = diag([500 100 1 1 1 1 1 1 1000 10]);
 % U = T_w_l T_w_r T_b_l T_b_r
 R = diag([1 1 0.25 0.25]);
+
+% Q = diag([500 100 50 5 1 1 1 1 1000 1]);
+
 
 T_s = 0.001;
 
@@ -162,9 +171,11 @@ for i = 1:4
 
 end
 
+save("../data/model_sjtu.mat");
+
 K_calc = matlabFunction(K_result);
 matlabFunction(K_result, 'File', '../function/lqr_k');
 
-R_square
+R_square;
 K_calc(0.2, 0.2)
 toc;

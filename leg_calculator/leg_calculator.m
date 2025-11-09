@@ -1,5 +1,5 @@
 % VMC解算优化版本，大幅减少计算量
-if ~exist(fullfile(pwd, 'data', 'leg_calc.mat'), 'file')
+if ~exist(fullfile(pwd, '..', 'data', 'leg_calculator.mat'), 'file')
     clear;
     tic;
     syms phi1_t(t) phi2_t(t) phi3_t(t) phi4_t(t) phi_dot_1 phi_dot_4;
@@ -100,15 +100,15 @@ if ~exist(fullfile(pwd, 'data', 'leg_calc.mat'), 'file')
 
     T_r = formula(T_tr);
     T_r = subs(T_r, [phi1_t(t) phi4_t(t)], [phi1 phi4]);
-    disp('带入角度计算完毕，储存结果');
-    save("leg_calc.mat");
+    disp('储存结果');
+    save("../data/leg_calculator.mat");
     toc;
 end
 
 %% 赋值计算
 clear;
 tic;
-load("leg_calc.mat");
+load("leg_calculator.mat");
 l1_ = 0.21; l2_ = 0.25; l5_ = 0; l3_ = l2_; l4_ = l1_; % UP腿长，Down腿长，关节电机距离
 pos = subs(pos, [l1 l2 l3 l4 l5], [l1_ l2_ l3_ l4_ l5_]);
 spd = subs(spd, [l1 l2 l3 l4 l5], [l1_ l2_ l3_ l4_ l5_]);
