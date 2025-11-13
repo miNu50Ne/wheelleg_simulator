@@ -31,7 +31,7 @@ syms I_w I_l_l I_l_r I_b I_z
 
 %parameters
 Rw = 0.06;
-Rl = 0.17825;
+Rl = 0.2135;
 
 eta_l = 0.2945;
 lwl = eta_l * l_l + 0.0368;
@@ -122,12 +122,11 @@ L_r_s = L_l_s;
 K_s = zeros(4, 10, length(L_l_s), length(L_r_s));
 
 % X = s d_s phi d_phi theta_l_l d_theta_l_l theta_l_r d_theta_l_r theta_b d_theta_b
-Q = diag([500 100 1 1 1 1 1 1 1000 10]);
+Q = diag([500 100 20 3 1 1 1 1 1000 10]);
 % U = T_w_l T_w_r T_b_l T_b_r
 R = diag([1 1 0.25 0.25]);
 
 % Q = diag([500 100 50 5 1 1 1 1 1000 1]);
-
 
 T_s = 0.001;
 
