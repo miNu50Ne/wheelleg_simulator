@@ -1,3 +1,4 @@
+
 % VMC解算优化版本，大幅减少计算量
 if ~exist(fullfile(pwd, '..', 'data', 'leg_calculator.mat'), 'file')
     clear;

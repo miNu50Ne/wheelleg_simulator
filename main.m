@@ -17,13 +17,6 @@ else
     load('model_sjtu.mat');
 end
 
-% if ~exist(fullfile(pwd, 'data', 'leg_calculator.mat'), 'file')
-%     disp('run leg_calculator.m');
-%     run("leg_calculator/leg_calculator.m");
-% else
-%     load('leg_calculator.mat');
-% end
-
 if ~exist(fullfile(pwd, 'data', 'five_link.mat'), 'file')
     disp('run five_link_calculator.m');
     run("leg_calculator/five_link_calculator.m");

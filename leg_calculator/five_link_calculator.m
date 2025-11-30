@@ -4,7 +4,6 @@ if ~exist(fullfile(pwd, '..', 'data', 'five_link.mat'), 'file')
     tic;
 
     syms phi1 phi4;
-    syms dphi1 dphi2 dphi3 dphi4;
     syms l1 l2 l3 l4 l5;
 
     x_B = l1 * cos(phi1);
